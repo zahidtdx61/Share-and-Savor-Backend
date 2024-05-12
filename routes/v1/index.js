@@ -3,49 +3,9 @@ const { StatusCodes } = require("http-status-codes");
 const { User } = require("../../models");
 const router = express.Router();
 const zod = require("zod");
+const { UserController } = require("../../controllers");
 
-router.get("/", (req, res) => {
-  res.status(StatusCodes.OK).send({
-    message: "API is working fine",
-  });
-});
-
-router.use("/add", async (req, res) => {
-  const { name, email } = req.body;
-  const userData = {
-    name,
-    email,
-  };
-
-  try {
-    const userSchema = zod.object({
-      name: zod.string().min(1),
-      email: zod.string().email(),
-    });
-
-    userSchema.parse(userData);
-
-    const user = await User.create(userData);
-    res.status(StatusCodes.OK).send({
-      status: "success",
-      user,
-    });
-  } catch (error) {
-    console.log(error.message);
-    if (error.name === "ZodError") {
-      const errorMessages = JSON.parse(error);
-      res.status(StatusCodes.BAD_REQUEST).send({
-        status: "Invalid input",
-        message: errorMessages[0].message,
-      });
-    } else {
-      res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
-        status: "error",
-        message: "Something went wrong",
-      });
-    }
-  }
-});
+router.post("/add-user", UserController.addUser);
 
 // global catch
 router.use((err, req, res, next) => {
