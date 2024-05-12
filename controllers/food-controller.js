@@ -11,7 +11,15 @@ const addFood = async (req, res) => {
     notes,
     status,
     donner_id,
+    uid,
   } = req.body;
+
+  if (donner_id !== uid) {
+    return res.status(StatusCodes.FORBIDDEN).send({
+      status: "error",
+      message: "Forbidden",
+    });
+  }
 
   try {
     const donnerInfo = await User.findOne({ uid: donner_id });
@@ -46,6 +54,28 @@ const addFood = async (req, res) => {
   }
 };
 
+const findFood = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const food = await Food.findById(id)
+      .populate("donner")
+      .populate("requester");
+
+    return res.status(StatusCodes.OK).send({
+      status: "success",
+      food,
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
+      status: "error",
+      message: "Something went wrong",
+    });
+  }
+};
+
 module.exports = {
   addFood,
+  findFood,
 };

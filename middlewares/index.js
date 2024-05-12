@@ -102,13 +102,6 @@ const verifyJWT = (req, res, next) => {
     const decoded = jwt.verify(token, SecretsConfig.JWT_SECRET);
     req.body.uid = decoded.uid;
 
-    if(donner_id !== decoded.uid){
-      return res.status(StatusCodes.FORBIDDEN).send({
-        status: "error",
-        message: "Forbidden",
-      });
-    }
-
     next();
   } catch (error) {
     return res.status(StatusCodes.UNAUTHORIZED).send({

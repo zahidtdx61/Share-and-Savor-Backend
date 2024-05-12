@@ -11,5 +11,6 @@ router.post("/sign-in", createJWT, UserController.signIn);
 
 
 router.post("/add-food", verifyJWT, foodDataValidator, FoodController.addFood);
+router.get("/find-food/:id", verifyJWT, FoodController.findFood);
 
 module.exports = router;
