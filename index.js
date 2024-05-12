@@ -2,6 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const cookieParser = require("cookie-parser");
+const { ServerConfig } = require("./config");
+const apiRoutes = require("./routes");
 
 const corsOption = {
   origin: [
@@ -22,6 +24,8 @@ app.get("/", (req, res) => {
   });
 });
 
-app.listen(3000, () => {
+app.use("/api", apiRoutes);
+
+app.listen(ServerConfig.PORT, () => {
   console.log("Server is running on port 3000");
 });
