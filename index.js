@@ -26,6 +26,11 @@ app.get("/", (req, res) => {
 
 app.use("/api", apiRoutes);
 
+// global catch
+app.use((err, req, res, next) => {
+  res.status(500).json({ error: err.message});
+})
+
 app.listen(ServerConfig.PORT, () => {
   console.log("Server is running on port 3000");
 });
