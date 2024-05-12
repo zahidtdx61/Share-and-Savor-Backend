@@ -87,4 +87,35 @@ const createJWT = (req, res, next) => {
   next();
 };
 
-module.exports = { userDataValidator, foodDataValidator, createJWT };
+const verifyJWT = (req, res, next) => {
+  const token = req.cookies.token;
+  const {donner_id} = req.body;
+
+  if (!token) {
+    return res.status(StatusCodes.UNAUTHORIZED).send({
+      status: "error",
+      message: "Unauthorized",
+    });
+  }
+
+  try {
+    const decoded = jwt.verify(token, SecretsConfig.JWT_SECRET);
+    req.body.uid = decoded.uid;
+
+    if(donner_id !== decoded.uid){
+      return res.status(StatusCodes.FORBIDDEN).send({
+        status: "error",
+        message: "Forbidden",
+      });
+    }
+
+    next();
+  } catch (error) {
+    return res.status(StatusCodes.UNAUTHORIZED).send({
+      status: "error",
+      message: "Unauthorized",
+    });
+  }
+};
+
+module.exports = { userDataValidator, foodDataValidator, createJWT, verifyJWT };
