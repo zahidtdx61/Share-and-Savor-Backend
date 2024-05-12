@@ -30,7 +30,17 @@ const userDataValidator = (req, res, next) => {
 
 const foodDataValidator = (req, res, next) => {
   try {
-    const { food_name, quantity, expiry, food_image, location, notes, status, donner, requester } = req.body;
+    const {
+      food_name,
+      quantity,
+      expiry,
+      food_image,
+      location,
+      notes,
+      status,
+      donner_id,
+    } = req.body;
+
     const foodData = {
       food_name,
       quantity,
@@ -41,9 +51,10 @@ const foodDataValidator = (req, res, next) => {
       status,
       donner_id,
     };
+
     const foodSchema = zod.object({
       food_name: zod.string().min(1),
-      quantity: zod.number().min(1),
+      quantity: zod.string().min(1),
       expiry: zod.string(),
       food_image: zod.string(),
       location: zod.string(),
@@ -51,16 +62,18 @@ const foodDataValidator = (req, res, next) => {
       status: zod.string(),
       donner_id: zod.string().min(1),
     });
+
     foodSchema.parse(foodData);
 
     next();
   } catch (error) {
     const errorMessages = JSON.parse(error);
+    console.log(error.message);
     res.status(StatusCodes.BAD_REQUEST).send({
       status: "Invalid input",
       message: errorMessages[0].message,
     });
   }
-}
+};
 
-module.exports = { userDataValidator };
+module.exports = { userDataValidator, foodDataValidator };
