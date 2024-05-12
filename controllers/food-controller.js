@@ -15,9 +15,8 @@ const addFood = async (req, res) => {
 
   try {
     const donnerInfo = await User.findOne({ uid: donner_id });
-    console.log(donnerInfo);
     const donner = donnerInfo._id;
-    
+
     const foodData = {
       food_name,
       quantity,
@@ -28,8 +27,6 @@ const addFood = async (req, res) => {
       status,
       donner,
     };
-
-    console.log(foodData);
 
     const food = await Food.create(foodData);
     await User.findByIdAndUpdate(donner._id, {

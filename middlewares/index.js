@@ -1,5 +1,7 @@
 const { StatusCodes } = require("http-status-codes");
 const zod = require("zod");
+const jwt = require("jsonwebtoken");
+const { SecretsConfig } = require("../config");
 
 const userDataValidator = (req, res, next) => {
   try {
@@ -76,4 +78,13 @@ const foodDataValidator = (req, res, next) => {
   }
 };
 
-module.exports = { userDataValidator, foodDataValidator };
+const createJWT = (req, res, next) => {
+  const { uid } = req.body;
+  const token = jwt.sign({ uid }, SecretsConfig.JWT_SECRET, {
+    expiresIn: "365d",
+  });
+  req.body.token = token;
+  next();
+};
+
+module.exports = { userDataValidator, foodDataValidator, createJWT };

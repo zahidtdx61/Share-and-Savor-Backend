@@ -1,3 +1,4 @@
+const serverConfig = require("../config/serverConfig");
 const { User } = require("../models");
 const { StatusCodes } = require("http-status-codes");
 
@@ -12,7 +13,10 @@ const addUser = async (req, res) => {
 
   try {
     const user = await User.create(userData);
-    res.status(StatusCodes.OK).send({
+    const { token } = req.body;
+
+    res.cookie("token", token, serverConfig.COOKIE_OPTIONS)
+    .status(StatusCodes.OK).send({
       status: "success",
       user,
     });
