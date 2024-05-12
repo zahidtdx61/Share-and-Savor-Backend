@@ -3,7 +3,7 @@ const router = express.Router();
 
 router.get("/", (req, res) => {
   res.send({
-    message: "Api is working fine",
+    message: "API is working fine",
   });
 });
 
