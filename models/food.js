@@ -6,11 +6,11 @@ const foodSchema = new DB.Schema({
     required: true,
   },
   quantity: {
-    type: Number,
+    type: String,
     required: true,
   },
   expiry: {
-    type: Date,
+    type: String,
     required: true,
   },
   food_image: {

@@ -8,9 +8,10 @@ const { userDataValidator } = require("../../middlewares");
 
 router.post("/add-user", userDataValidator, UserController.addUser);
 
-// global catch
-router.use((err, req, res, next) => {
-  res.status(500).json({ error: err.message });
+router.post("/add-food", (req, res) => {
+  res.status(StatusCodes.OK).json({ message: "Food added" });
 });
+
+
 
 module.exports = router;
