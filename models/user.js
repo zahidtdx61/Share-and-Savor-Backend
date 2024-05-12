@@ -22,13 +22,13 @@ const userSchema = new DB.Schema({
   donated_foods: [
     {
       type: DB.Schema.Types.ObjectId,
-      ref: "AvailableFood",
+      ref: "Food",
     },
   ],
   requested_foods: [
     {
       type: DB.Schema.Types.ObjectId,
-      ref: "RequestedFood",
+      ref: "Food",
     },
   ],
 });
