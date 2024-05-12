@@ -52,6 +52,7 @@ const signIn = async (req, res) => {
         user,
       });
   } catch (error) {
+    console.log(error.message);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
       status: "error",
       message: "Something went wrong",
@@ -78,6 +79,34 @@ const donatedFoods = async (req, res) => {
       donated_foods: donatedFoods,
     });
   } catch (error) {
+    console.log(error.message);
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
+      status: "error",
+      message: "Something went wrong",
+    });
+  }
+};
+
+const requestedFoods = async (req, res) => {
+  const { uid } = req.body;
+
+  try {
+    const user = await User.findOne({ uid: uid }).populate("requested_foods");
+    if (!user) {
+      return res.status(StatusCodes.NOT_FOUND).send({
+        status: "error",
+        message: "User not found",
+      });
+    }
+
+    const requestedFoods = user.requested_foods;
+    
+    return res.status(StatusCodes.OK).send({
+      status: "success",
+      requested_foods: requestedFoods,
+    });
+  } catch (error) {
+    console.log(error.message);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
       status: "error",
       message: "Something went wrong",
@@ -89,4 +118,5 @@ module.exports = {
   addUser,
   signIn,
   donatedFoods,
+  requestedFoods,
 };
