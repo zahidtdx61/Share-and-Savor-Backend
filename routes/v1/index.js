@@ -23,11 +23,7 @@ router.use("/add", async (req, res) => {
       email: zod.string().email(),
     });
 
-    const inputValidation = userSchema.parse(userData);
-
-    if (inputValidation) {
-      console.log("Input is valid");
-    }
+    userSchema.parse(userData);
 
     const user = await User.create(userData);
     res.status(StatusCodes.OK).send({
@@ -35,7 +31,7 @@ router.use("/add", async (req, res) => {
       user,
     });
   } catch (error) {
-    console.log(error.name);
+    console.log(error.message);
     if (error.name === "ZodError") {
       const errorMessages = JSON.parse(error);
       res.status(StatusCodes.BAD_REQUEST).send({
@@ -44,8 +40,8 @@ router.use("/add", async (req, res) => {
       });
     } else {
       res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
-        status: "Something went wrong",
-        message: error.message,
+        status: "error",
+        message: "Something went wrong",
       });
     }
   }

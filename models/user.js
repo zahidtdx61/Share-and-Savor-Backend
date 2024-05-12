@@ -10,7 +10,27 @@ const userSchema = new DB.Schema({
     required: true,
     unique: true,
   },
-  
+  uid: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  image: {
+    type: String,
+    required: true,
+  },
+  donated_foods: [
+    {
+      type: DB.Schema.Types.ObjectId,
+      ref: "AvailableFood",
+    },
+  ],
+  requested_foods: [
+    {
+      type: DB.Schema.Types.ObjectId,
+      ref: "RequestedFood",
+    },
+  ],
 });
 
 const User = DB.model("User", userSchema);
