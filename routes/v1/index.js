@@ -8,7 +8,7 @@ const { userDataValidator, foodDataValidator, createJWT, verifyJWT } = require("
 
 router.post("/sign-up", userDataValidator, createJWT, UserController.addUser);
 router.post("/sign-in", createJWT, UserController.signIn);
-router.get("/donated-foods/:id", verifyJWT, UserController.donatedFoods);
+router.get("/donated-foods", verifyJWT, UserController.donatedFoods);
 
 
 router.post("/add-food", verifyJWT, foodDataValidator, FoodController.addFood);

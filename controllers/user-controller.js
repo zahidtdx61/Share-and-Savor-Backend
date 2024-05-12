@@ -59,7 +59,34 @@ const signIn = async (req, res) => {
   }
 };
 
+const donatedFoods = async (req, res) => {
+  const { uid } = req.body;
+
+  try {
+    const user = await User.findOne({ uid: uid }).populate("donated_foods");
+    if (!user) {
+      return res.status(StatusCodes.NOT_FOUND).send({
+        status: "error",
+        message: "User not found",
+      });
+    }
+
+    const donatedFoods = user.donated_foods;
+
+    return res.status(StatusCodes.OK).send({
+      status: "success",
+      donated_foods: donatedFoods,
+    });
+  } catch (error) {
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
+      status: "error",
+      message: "Something went wrong",
+    });
+  }
+};
+
 module.exports = {
   addUser,
   signIn,
+  donatedFoods,
 };
