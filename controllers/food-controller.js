@@ -75,7 +75,37 @@ const findFood = async (req, res) => {
   }
 };
 
+const requestFood = async (req, res) => {
+  const { id } = req.params;
+  const { uid } = req.body;
+
+  try {
+    const userInfo = await User.findOne({ uid });
+
+    const food = await Food.findByIdAndUpdate(id, {
+      status: "requested",
+      requester: userInfo._id,
+    });
+
+    await User.findByIdAndUpdate(userInfo._id, {
+      $push: { requested_foods: food._id },
+    });
+
+    return res.status(StatusCodes.OK).send({
+      status: "success",
+      food,
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
+      status: "error",
+      message: "Something went wrong",
+    });
+  }
+};
+
 module.exports = {
   addFood,
   findFood,
+  requestFood,
 };
