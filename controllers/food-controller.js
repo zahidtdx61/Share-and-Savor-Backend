@@ -33,13 +33,13 @@ const addFood = async (req, res) => {
       $push: { donated_foods: food._id },
     });
 
-    res.status(StatusCodes.OK).send({
+    return res.status(StatusCodes.OK).send({
       status: "success",
       food,
     });
   } catch (error) {
     console.log(error.message);
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
       status: "error",
       message: "Something went wrong",
     });

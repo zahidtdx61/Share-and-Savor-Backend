@@ -6,7 +6,9 @@ const zod = require("zod");
 const { UserController, FoodController } = require("../../controllers");
 const { userDataValidator, foodDataValidator, createJWT } = require("../../middlewares");
 
-router.post("/add-user", userDataValidator, createJWT, UserController.addUser);
+router.post("/sign-up", userDataValidator, createJWT, UserController.addUser);
+router.post("/sign-in", createJWT, UserController.signIn);
+
 
 router.post("/add-food", foodDataValidator, FoodController.addFood);
 
