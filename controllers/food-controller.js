@@ -1,7 +1,5 @@
 const { StatusCodes } = require("http-status-codes");
 const { Food, User } = require("../models");
-// const Food = require("../models/food"); // Import the Food model
-const mongoose = require("mongoose"); // Import the mongoose package
 
 const addFood = async (req, res) => {
   const {

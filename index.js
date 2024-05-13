@@ -9,9 +9,11 @@ const corsOption = {
   origin: [
     "http://localhost:5173",
     "http://localhost:5174",
-    "https://share-and-savor.web.app/",
+    "https://share-and-savor.web.app",
+    "https://share-and-savor.vercel.app",
   ],
   credentials: true,
+  optionSuccessStatus: 200,
 };
 
 app.use(cors(corsOption));
