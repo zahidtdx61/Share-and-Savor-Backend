@@ -53,7 +53,7 @@ const foodDataValidator = (req, res, next) => {
     const foodSchema = zod.object({
       food_name: zod.string().min(1),
       quantity: zod.number(),
-      expiry_date: zod.date(),
+      expiry_date: zod.coerce.date(),
       food_image: zod.string(),
       location: zod.string(),
       notes: zod.string(),
@@ -88,6 +88,7 @@ const verifyJWT = (req, res, next) => {
   const { donner_id } = req.body;
 
   if (!token) {
+    console.log("No token found");
     return res.status(StatusCodes.UNAUTHORIZED).send({
       status: "error",
       message: "Unauthorized",

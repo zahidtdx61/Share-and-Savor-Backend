@@ -21,16 +21,13 @@ const addUser = async (req, res) => {
 
     return res
       .cookie("token", token, serverConfig.COOKIE_OPTIONS)
-      .status(StatusCodes.OK)
       .send({
-        status: "success",
-        user,
+        success: true,
       });
   } catch (error) {
     console.log(error.message);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
-      status: "error",
-      message: "Something went wrong",
+      success: false,
     });
   }
 };
