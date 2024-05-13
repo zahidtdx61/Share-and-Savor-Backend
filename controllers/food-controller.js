@@ -182,24 +182,27 @@ const deleteFood = async (req, res) => {
 };
 
 const allFoods = async (req, res) => {
-  const { search, sorted, limit } = req.query;
-  console.log(search);
+  const { search, sorted, page, size } = req.query;
+  console.log({ page, size });
   try {
     let query = {};
     if (search) {
-      query = { food_name: { $regex: new RegExp(search, 'i') } };
+      query = { food_name: { $regex: new RegExp(search, "i") } };
     }
 
     let foodQuery = Food.find(query);
     if (sorted) {
       foodQuery = foodQuery.sort(sorted);
     }
-    if (limit) {
-      foodQuery = foodQuery.limit(limit);
-    }
     
+    const limit = parseInt(size);
+    const skip = (parseInt(page) - 1) * limit;
+
+    console.log({ limit, skip })
+    foodQuery = foodQuery.skip(skip).limit(limit);
+
     const foods = await foodQuery.exec();
-    
+
     return res.status(StatusCodes.OK).send({
       status: "success",
       foods,
