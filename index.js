@@ -5,7 +5,7 @@ const cookieParser = require("cookie-parser");
 const { ServerConfig } = require("./config");
 const apiRoutes = require("./routes");
 
-const corsOption = {
+const corsOptions = {
   origin: [
     "http://localhost:5173",
     "http://localhost:5174",
@@ -16,7 +16,7 @@ const corsOption = {
   optionSuccessStatus: 200,
 };
 
-app.use(cors(corsOption));
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
 

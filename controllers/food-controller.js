@@ -181,7 +181,7 @@ const deleteFood = async (req, res) => {
 
 const allFoods = async (req, res) => {
   const { search, sorted, page, size } = req.query;
-  // console.log({ page, size });
+  
   try {
     let query = {};
     if (search) {
@@ -190,9 +190,9 @@ const allFoods = async (req, res) => {
 
     let foodQuery = Food.find(query);
     if (sorted) {
-      foodQuery = foodQuery.sort(sorted);
+      foodQuery = foodQuery.sort({ [sorted]: -1 });
     }
-    
+
     const limit = parseInt(size);
     const skip = (parseInt(page) - 1) * limit;
 
