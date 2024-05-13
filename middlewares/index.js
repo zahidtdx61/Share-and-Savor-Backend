@@ -7,16 +7,12 @@ const userDataValidator = (req, res, next) => {
   try {
     const { name, email, uid, image } = req.body;
     const userData = {
-      name,
       email,
       uid,
-      image,
     };
     const userSchema = zod.object({
-      name: zod.string().min(1),
       email: zod.string().email(),
       uid: zod.string().min(1),
-      image: zod.string(),
     });
     userSchema.parse(userData);
 
@@ -89,7 +85,7 @@ const createJWT = (req, res, next) => {
 
 const verifyJWT = (req, res, next) => {
   const token = req.cookies.token;
-  const {donner_id} = req.body;
+  const { donner_id } = req.body;
 
   if (!token) {
     return res.status(StatusCodes.UNAUTHORIZED).send({

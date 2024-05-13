@@ -13,7 +13,10 @@ const addUser = async (req, res) => {
   };
 
   try {
-    const user = await User.create(userData);
+    let user = await User.findOne({ uid });
+    if (!user) {
+      user = await User.create(userData);
+    }
     const { token } = req.body;
 
     return res
@@ -100,7 +103,7 @@ const requestedFoods = async (req, res) => {
     }
 
     const requestedFoods = user.requested_foods;
-    
+
     return res.status(StatusCodes.OK).send({
       status: "success",
       requested_foods: requestedFoods,
