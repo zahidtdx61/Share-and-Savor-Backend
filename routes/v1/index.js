@@ -14,6 +14,10 @@ router.get("/requested-foods", verifyJWT, UserController.requestedFoods);
 
 router.post("/add-food", verifyJWT, foodDataValidator, FoodController.addFood);
 router.get("/find-food/:id", verifyJWT, FoodController.findFood);
-router.get("/request-food/:id", verifyJWT, FoodController.requestFood);
+router.post("/request-food/:id", verifyJWT, FoodController.requestFood);
+router.put("/update-food/:id", verifyJWT, FoodController.updateFood);
+router.delete("/delete-food/:id", verifyJWT, FoodController.deleteFood);
+router.get("/all-foods", FoodController.allFoods);
+
 
 module.exports = router;

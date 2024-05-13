@@ -1,11 +1,13 @@
 const { StatusCodes } = require("http-status-codes");
 const { Food, User } = require("../models");
+// const Food = require("../models/food"); // Import the Food model
+const mongoose = require("mongoose"); // Import the mongoose package
 
 const addFood = async (req, res) => {
   const {
     food_name,
     quantity,
-    expiry,
+    expiry_date,
     food_image,
     location,
     notes,
@@ -28,7 +30,7 @@ const addFood = async (req, res) => {
     const foodData = {
       food_name,
       quantity,
-      expiry,
+      expiry_date,
       food_image,
       location,
       notes,
@@ -77,7 +79,7 @@ const findFood = async (req, res) => {
 
 const requestFood = async (req, res) => {
   const { id } = req.params;
-  const { uid } = req.body;
+  const { uid, notes } = req.body;
 
   try {
     const userInfo = await User.findOne({ uid });
@@ -85,6 +87,8 @@ const requestFood = async (req, res) => {
     const food = await Food.findByIdAndUpdate(id, {
       status: "requested",
       requester: userInfo._id,
+      notes: notes,
+      requested_date: new Date(),
     });
 
     await User.findByIdAndUpdate(userInfo._id, {
@@ -104,8 +108,116 @@ const requestFood = async (req, res) => {
   }
 };
 
+const updateFood = async (req, res) => {
+  const { id } = req.params;
+  const {
+    food_name,
+    quantity,
+    expiry_date,
+    food_image,
+    location,
+    notes,
+    status,
+    donner_id,
+    uid,
+  } = req.body;
+
+  if (donner_id !== uid) {
+    return res.status(StatusCodes.FORBIDDEN).send({
+      status: "error",
+      message: "Forbidden",
+    });
+  }
+
+  try {
+    const food = await Food.findByIdAndUpdate(id, {
+      food_name,
+      quantity,
+      expiry_date,
+      food_image,
+      location,
+      notes,
+      status,
+    });
+
+    return res.status(StatusCodes.OK).send({
+      status: "success",
+      food,
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
+      status: "error",
+      message: "Something went wrong",
+    });
+  }
+};
+
+const deleteFood = async (req, res) => {
+  const { id } = req.params;
+  const { donner_id, uid } = req.body;
+
+  if (donner_id !== uid) {
+    return res.status(StatusCodes.FORBIDDEN).send({
+      status: "error",
+      message: "Forbidden",
+    });
+  }
+
+  try {
+    const food = await Food.findByIdAndDelete(id);
+    await User.findOneAndUpdate({ uid }, { $pull: { donated_foods: id } });
+
+    return res.status(StatusCodes.OK).send({
+      status: "success",
+      food,
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
+      status: "error",
+      message: "Something went wrong",
+    });
+  }
+};
+
+const allFoods = async (req, res) => {
+  const { search, sorted, limit } = req.query;
+  console.log(search);
+  try {
+    let query = {};
+    if (search) {
+      query = { food_name: { $regex: new RegExp(search, 'i') } };
+    }
+
+    let foodQuery = Food.find(query);
+    if (sorted) {
+      foodQuery = foodQuery.sort(sorted);
+    }
+    if (limit) {
+      foodQuery = foodQuery.limit(limit);
+    }
+    
+    const foods = await foodQuery.exec();
+    
+    return res.status(StatusCodes.OK).send({
+      status: "success",
+      foods,
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
+      status: "error",
+      message: "Something went wrong",
+    });
+  }
+};
+
 module.exports = {
   addFood,
   findFood,
   requestFood,
+  updateFood,
+  deleteFood,
+  allFoods,
 };

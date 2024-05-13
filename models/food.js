@@ -9,9 +9,12 @@ const foodSchema = new DB.Schema({
     type: String,
     required: true,
   },
-  expiry: {
+  expiry_date: {
     type: String,
     required: true,
+  },
+  requested_date: {
+    type: String,
   },
   food_image: {
     type: String,

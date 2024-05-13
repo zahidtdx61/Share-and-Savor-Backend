@@ -35,7 +35,7 @@ const foodDataValidator = (req, res, next) => {
     const {
       food_name,
       quantity,
-      expiry,
+      expiry_date,
       food_image,
       location,
       notes,
@@ -46,7 +46,7 @@ const foodDataValidator = (req, res, next) => {
     const foodData = {
       food_name,
       quantity,
-      expiry,
+      expiry_date,
       food_image,
       location,
       notes,
@@ -57,7 +57,7 @@ const foodDataValidator = (req, res, next) => {
     const foodSchema = zod.object({
       food_name: zod.string().min(1),
       quantity: zod.string().min(1),
-      expiry: zod.string(),
+      expiry_date: zod.string(),
       food_image: zod.string(),
       location: zod.string(),
       notes: zod.string(),
