@@ -115,16 +115,8 @@ const updateFood = async (req, res) => {
     location,
     notes,
     status,
-    donner_id,
     uid,
   } = req.body;
-
-  if (donner_id !== uid) {
-    return res.status(StatusCodes.FORBIDDEN).send({
-      status: "error",
-      message: "Forbidden",
-    });
-  }
 
   try {
     const food = await Food.findByIdAndUpdate(id, {
@@ -136,6 +128,17 @@ const updateFood = async (req, res) => {
       notes,
       status,
     });
+
+    // console.log({
+    //   id,
+    //   food_name,
+    //   quantity,
+    //   expiry_date,
+    //   food_image,
+    //   location,
+    //   notes,
+    //   status,
+    // });
 
     return res.status(StatusCodes.OK).send({
       status: "success",
@@ -153,7 +156,7 @@ const updateFood = async (req, res) => {
 const deleteFood = async (req, res) => {
   const { id } = req.params;
   const { uid } = req.body;
-  
+
   try {
     const food = await Food.findByIdAndDelete(id);
     await User.findOneAndUpdate({ uid }, { $pull: { donated_foods: id } });
@@ -173,7 +176,7 @@ const deleteFood = async (req, res) => {
 
 const allFoods = async (req, res) => {
   const { search, sorted, page, size } = req.query;
-  
+
   try {
     let query = {};
     if (search) {
