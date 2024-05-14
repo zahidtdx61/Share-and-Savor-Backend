@@ -77,15 +77,14 @@ const findFood = async (req, res) => {
 
 const requestFood = async (req, res) => {
   const { id } = req.params;
-  const { uid, notes } = req.body;
+  const { uid } = req.body;
 
   try {
     const userInfo = await User.findOne({ uid });
 
     const food = await Food.findByIdAndUpdate(id, {
-      status: "requested",
+      status: "Requested",
       requester: userInfo._id,
-      notes: notes,
       requested_date: new Date(),
     });
 

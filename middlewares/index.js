@@ -85,7 +85,6 @@ const createJWT = (req, res, next) => {
 
 const verifyJWT = (req, res, next) => {
   const token = req.cookies.token;
-  const { donner_id } = req.body;
 
   if (!token) {
     console.log("No token found");
