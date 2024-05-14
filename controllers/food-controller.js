@@ -175,13 +175,15 @@ const deleteFood = async (req, res) => {
 };
 
 const allFoods = async (req, res) => {
-  const { search, sorted, page, size } = req.query;
+  const { search, sorted, page, size, status } = req.query;
 
   try {
     let query = {};
     if (search) {
       query = { food_name: { $regex: new RegExp(search, "i") } };
     }
+
+    query = { ...query, status };
 
     let foodQuery = Food.find(query);
     if (sorted) {
