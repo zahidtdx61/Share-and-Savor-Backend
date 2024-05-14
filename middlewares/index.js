@@ -7,11 +7,9 @@ const userDataValidator = (req, res, next) => {
   try {
     const { name, email, uid, image } = req.body;
     const userData = {
-      email,
       uid,
     };
     const userSchema = zod.object({
-      email: zod.string().email(),
       uid: zod.string().min(1),
     });
     userSchema.parse(userData);

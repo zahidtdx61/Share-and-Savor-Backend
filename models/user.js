@@ -7,7 +7,6 @@ const userSchema = new DB.Schema({
   },
   email: {
     type: String,
-    required: true,
     unique: true,
   },
   uid: {

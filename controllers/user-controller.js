@@ -129,10 +129,22 @@ const findUser = async (req, res) => {
   }
 };
 
+const signOut = async (req, res) => {
+  return res
+    .clearCookie("token", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+      maxAge: 0,
+    })
+    .send({ success: true });
+};
+
 module.exports = {
   addUser,
   signIn,
   donatedFoods,
   requestedFoods,
   findUser,
+  signOut,
 };
