@@ -182,8 +182,9 @@ const allFoods = async (req, res) => {
     if (search) {
       query = { food_name: { $regex: new RegExp(search, "i") } };
     }
-
-    query = { ...query, status };
+    if (status) {
+      query = { ...query, status };
+    }
 
     let foodQuery = Food.find(query);
     if (sorted) {
