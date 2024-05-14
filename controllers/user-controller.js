@@ -19,11 +19,9 @@ const addUser = async (req, res) => {
     }
     const { token } = req.body;
 
-    return res
-      .cookie("token", token, serverConfig.COOKIE_OPTIONS)
-      .send({
-        success: true,
-      });
+    return res.cookie("token", token, serverConfig.COOKIE_OPTIONS).send({
+      success: true,
+    });
   } catch (error) {
     console.log(error.message);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
@@ -114,9 +112,27 @@ const requestedFoods = async (req, res) => {
   }
 };
 
+const findUser = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await User.findById(id);
+    return res.status(StatusCodes.OK).send({
+      status: "success",
+      user,
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
+      status: "error",
+      message: "Something went wrong",
+    });
+  }
+};
+
 module.exports = {
   addUser,
   signIn,
   donatedFoods,
   requestedFoods,
+  findUser,
 };

@@ -7,6 +7,7 @@ const { UserController, FoodController } = require("../../controllers");
 const { userDataValidator, foodDataValidator, createJWT, verifyJWT } = require("../../middlewares");
 
 router.post("/add-user", userDataValidator, createJWT, UserController.addUser);
+router.get("/find-user/:id", verifyJWT, UserController.findUser);
 // router.post("/sign-in", createJWT, UserController.signIn);
 router.get("/donated-foods", verifyJWT, UserController.donatedFoods);
 router.get("/requested-foods", verifyJWT, UserController.requestedFoods);
