@@ -152,15 +152,8 @@ const updateFood = async (req, res) => {
 
 const deleteFood = async (req, res) => {
   const { id } = req.params;
-  const { donner_id, uid } = req.body;
-
-  if (donner_id !== uid) {
-    return res.status(StatusCodes.FORBIDDEN).send({
-      status: "error",
-      message: "Forbidden",
-    });
-  }
-
+  const { uid } = req.body;
+  
   try {
     const food = await Food.findByIdAndDelete(id);
     await User.findOneAndUpdate({ uid }, { $pull: { donated_foods: id } });
