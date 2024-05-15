@@ -21,14 +21,14 @@ This is the server-side codebase for the Share and Savor project. Share and Savo
 
 This project uses the following packages:
 
-- [`express`](https://www.npmjs.com/package/express) - Fast, unopinionated, minimalist web framework for Node.js.
-- [`mongoose`](https://www.npmjs.com/package/mongoose) - MongoDB object modeling tool designed to work in an asynchronous environment.
-- [`jsonwebtoken`](https://www.npmjs.com/package/jsonwebtoken) - An implementation of JSON Web Tokens.
-- [`cookie-parser`](https://www.npmjs.com/package/cookie-parser) - Parse Cookie header and populate `req.cookies` with an object keyed by the cookie names.
-- [`zod`](https://www.npmjs.com/package/zod) - A TypeScript-first schema declaration and validation library.
-- [`cors`](https://www.npmjs.com/package/cors) - Middleware that can be used to enable CORS with various options.
-- [`dotenv`](https://www.npmjs.com/package/dotenv) - Loads environment variables from a `.env` file into `process.env`.
-- [`http-status-codes`](https://www.npmjs.com/package/http-status-codes) - Utility to interact with HTTP status code.
+- [express](https://www.npmjs.com/package/express) - Fast, unopinionated, minimalist web framework for Node.js.
+- [mongoose](https://www.npmjs.com/package/mongoose) - MongoDB object modeling tool designed to work in an asynchronous environment.
+- [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken) - An implementation of JSON Web Tokens.
+- [cookie-parser](https://www.npmjs.com/package/cookie-parser) - Parse Cookie header and populate `req.cookies` with an object keyed by the cookie names.
+- [zod](https://www.npmjs.com/package/zod) - A TypeScript-first schema declaration and validation library.
+- [cors](https://www.npmjs.com/package/cors) - Middleware that can be used to enable CORS with various options.
+- [dotenv](https://www.npmjs.com/package/dotenv) - Loads environment variables from a `.env` file into `process.env`.
+- [http-status-codes](https://www.npmjs.com/package/http-status-codes) - Utility to interact with HTTP status code.
 
 ## Contributing
 
